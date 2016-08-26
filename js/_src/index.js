@@ -7,6 +7,7 @@ import app from "./reducers";
 import App from "./components/App";
 import thunkMiddleware from "redux-thunk";
 import {initApp} from "./actions";
+import logger from 'redux-logger'
 
 let store = createStore(app, {
         appState: JSON.parse(localStorage.getItem('appState'))||{
@@ -16,13 +17,14 @@ let store = createStore(app, {
         },
         caches: JSON.parse(localStorage.getItem('caches'))||{},
     }, applyMiddleware(
-    thunkMiddleware
+    thunkMiddleware,
+    logger()
 ));
 
-console.log(store.getState());
+// console.log(store.getState());
 
 store.subscribe(() => {
-    console.log(store.getState());
+    // console.log(store.getState());
     localStorage.setItem('appState', JSON.stringify(store.getState().appState));
     localStorage.setItem('caches', JSON.stringify(store.getState().caches));
 });

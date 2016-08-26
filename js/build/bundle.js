@@ -8189,6 +8189,10 @@
 
 	var _actions = __webpack_require__(497);
 
+	var _reduxLogger = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"redux-logger\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+
+	var _reduxLogger2 = _interopRequireDefault(_reduxLogger);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var store = (0, _redux.createStore)(_reducers2.default, {
@@ -8198,12 +8202,12 @@
 	        issuePage: 1
 	    },
 	    caches: JSON.parse(localStorage.getItem('caches')) || {}
-	}, (0, _redux.applyMiddleware)(_reduxThunk2.default));
+	}, (0, _redux.applyMiddleware)(_reduxThunk2.default, (0, _reduxLogger2.default)()));
 
-	console.log(store.getState());
+	// console.log(store.getState());
 
 	store.subscribe(function () {
-	    console.log(store.getState());
+	    // console.log(store.getState());
 	    localStorage.setItem('appState', JSON.stringify(store.getState().appState));
 	    localStorage.setItem('caches', JSON.stringify(store.getState().caches));
 	});
@@ -31289,6 +31293,34 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	var fetchData = function fetchData(url, etag) {
+	    return function (dispatch) {
+	        return (0, _isomorphicFetch2.default)((0, _constants.getRequest)(url, etag), { timeout: 10000 }).then(function (response) {
+	            // console.log(response);
+	            if (response.status >= 400) {
+	                throw new Error("Bad response from server");
+	            }
+	            if (response.ok) {
+	                var _ret = function () {
+	                    var new_etag = response.headers.get('etag');
+	                    return {
+	                        v: response.json().then(function (data) {
+	                            dispatch(updateCache(url, { etag: new_etag, data: data }));
+	                        })
+	                    };
+	                }();
+
+	                if ((typeof _ret === "undefined" ? "undefined" : _typeof(_ret)) === "object") return _ret.v;
+	            } else {
+	                var status = response.status;
+	                var statusText = response.statusText;
+
+	                return { type: 'IGNORE_ME', status: status, statusText: statusText };
+	            }
+	        });
+	    };
+	};
+
 	var changeAppState = exports.changeAppState = function changeAppState(_ref) {
 	    var issueLabel = _ref.issueLabel;
 	    var issueState = _ref.issueState;
@@ -31313,63 +31345,16 @@
 
 	        var etag = caches[url] ? caches[url].etag : '';
 
-	        return (0, _isomorphicFetch2.default)((0, _constants.getRequest)(url, etag), { timeout: 10000 }).then(function (response) {
-	            console.log(response);
-
-	            if (response.status >= 400) {
-	                throw new Error("Bad response from server");
-	            }
-	            if (response.ok) {
-	                var _ret = function () {
-	                    var new_etag = response.headers.get('etag');
-	                    return {
-	                        v: response.json().then(function (data) {
-	                            dispatch(updateCache(url, { etag: new_etag, data: data }));
-	                        })
-	                    };
-	                }();
-
-	                if ((typeof _ret === "undefined" ? "undefined" : _typeof(_ret)) === "object") return _ret.v;
-	            } else {
-	                var status = response.status;
-	                var statusText = response.statusText;
-
-	                return { status: status, statusText: statusText };
-	            }
-	        });
+	        dispatch(fetchData(url, etag));
 	    };
 	};
 
 	var initApp = exports.initApp = function initApp(caches) {
 	    return function (dispatch) {
-
-	        var url = _constants.labels_url;
-
-	        var etag = caches[url] ? caches[url].etag : '';
-
-	        return (0, _isomorphicFetch2.default)((0, _constants.getRequest)(url, etag), { timeout: 10000 }).then(function (response) {
-
-	            if (response.status >= 400) {
-	                throw new Error("Bad response from server");
-	            }
-	            if (response.ok) {
-	                var _ret2 = function () {
-	                    var new_etag = response.headers.get('etag');
-	                    return {
-	                        v: response.json().then(function (data) {
-	                            dispatch(updateCache(url, { etag: new_etag, data: data }));
-	                        })
-	                    };
-	                }();
-
-	                if ((typeof _ret2 === "undefined" ? "undefined" : _typeof(_ret2)) === "object") return _ret2.v;
-	            } else {
-	                var status = response.status;
-	                var statusText = response.statusText;
-
-	                return { status: status, statusText: statusText };
-	            }
-	        });
+	        var labels_etag = caches[_constants.labels_url] ? caches[_constants.labels_url].etag : '';
+	        var issues_etag = caches[(0, _constants.concatIssueURL)({})] ? caches[(0, _constants.concatIssueURL)({})].etag : '';
+	        dispatch(fetchData(_constants.labels_url, labels_etag));
+	        dispatch(fetchData((0, _constants.concatIssueURL)({}), issues_etag));
 	    };
 	};
 
