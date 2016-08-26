@@ -1,6 +1,5 @@
-.avatar-img {
-    width: 5rem;
-    height: 5rem;
+nav{
+    margin-bottom: 1rem;
 }
 
 .issue-list{
@@ -14,45 +13,31 @@
 }
 
 .issue {
-    display: flex;
-    align-items: flex-start;
     margin-bottom: 1em;
+    border: solid 1px #bfccd1;
+    border-radius: .5rem;
 
   .issue-header{
       padding: .5rem;
       margin: 0;
       background-color: #f2f8fa;
       border-bottom: solid 1px #bfccd1;
-      border-radius: .5rem;
+      border-top-left-radius: .5rem;
+      border-top-right-radius: .5rem;
   }
-
-  .issue-container{
-      border: solid 1px gray;
-      border-radius: .5rem;
-
-      &,&:last-child{
-           margin-bottom: 0;
-      }
-  }
-  .issue-body-section {
+  .issue-body{
       padding: .5rem;
   }
-  .issue-container,.issue-body,.issue-header {
-    flex: 1;
-
+  .issue-footer{
+      padding: .5rem
   }
+
 }
-
-.avatar {
-  margin-right: 1em;
-}
-
-
 
 .tag-list {
     display: inline;
-    .tag{
-        border: solid 1px;
+    .label.active {
+        border: solid 2px;
         border-radius: 5px;
         padding: .2rem;
     }
