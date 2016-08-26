@@ -4,7 +4,8 @@
   "description": "网易云音乐音质替换检查小组任务公示栏",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build-production": "webpack -p --define process.env.NODE_ENV='\"production\"' --progress --colors"
   },
   "repository": {
     "type": "git",
@@ -23,6 +24,7 @@
     "react-dom": "^15.3.1",
     "react-redux": "^4.4.5",
     "redux": "^3.5.2",
+    "redux-logger": "^2.6.1",
     "redux-thunk": "^2.1.0"
   },
   "devDependencies": {
