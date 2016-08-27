@@ -3,8 +3,7 @@ nav{
 }
 
 .issue-list{
-    margin: 0;
-    margin-top: 1rem;
+    margin: .5rem 0;
     list-style: none;
 
     > li {
@@ -36,7 +35,7 @@ nav{
 
 .tag-list {
     display: inline;
-    .label.active {
+    .label {
         border: solid 2px;
         border-radius: 5px;
         padding: .2rem;
@@ -82,7 +81,10 @@ button,.button {
     appearance: none
 }
 
-button:hover,.button:hover, button:active,.button:active {
+button:hover,
+.button:hover,
+button:active,
+.button:active {
     text-decoration: none;
     background-color: #ddd;
     background-image: -webkit-linear-gradient(#eee, #ddd);
@@ -90,11 +92,101 @@ button:hover,.button:hover, button:active,.button:active {
     border-color: #ccc
 }
 
-button.active,.button.active {
+button.active,.button.active,
+#show-detail-checkbox:not(:checked) ~ .issue-state-settings #show-detail-label {
     color: #fff;
     text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.15);
     background-color: #60b044;
     background-image: -webkit-linear-gradient(#8add6d, #60b044);
     background-image: linear-gradient(#8add6d, #60b044);
     border-color: #5ca941
+}
+
+#show-detail-checkbox{
+    display: none;
+}
+
+#show-detail-checkbox:checked ~ .issue-list-container {
+    .issue-body {
+        display: none;
+    }
+
+}
+
+.pagination {
+    display: inline-block;
+    margin: .5rem 0;
+    padding-left: 0;
+    border-radius: 4px;
+
+    > li {
+        display: inline; // Remove list-style and block-level defaults
+        > a,
+        > span {
+            position: relative;
+            float: left; // Collapse white-space
+            padding: 6px 12px;
+            line-height: 20/14;
+            text-decoration: none;
+            color: $pagination-color;
+            background-color: $pagination-bg;
+            border: 1px solid $pagination-border;
+            margin-left: -1px;
+        }
+        &:first-child {
+            > a,
+            > span {
+                margin-left: 0;
+                @include border-left-radius(4px);
+            }
+        }
+        &:last-child {
+            > a,
+            > span {
+                @include border-right-radius(4px);
+            }
+        }
+    }
+
+    > li > a,
+    > li > span {
+        &:hover,
+        &:focus {
+            z-index: 2;
+            color: $pagination-hover-color;
+            background-color: $pagination-hover-bg;
+            border-color: $pagination-hover-border;
+        }
+    }
+
+    > .active > a,
+    > .active > span {
+        &,
+        &:hover,
+        &:focus {
+            z-index: 3;
+            color: $pagination-active-color;
+            background-color: #337ab7;
+            border-color: $pagination-active-border;
+            cursor: default;
+        }
+    }
+
+    > .disabled {
+        > span,
+        > span:hover,
+        > span:focus,
+        > a,
+        > a:hover,
+        > a:focus {
+            color: $pagination-disabled-color;
+            background-color: $pagination-disabled-bg;
+            border-color: $pagination-disabled-border;
+            cursor: not-allowed;
+        }
+    }
+}
+
+.issue-state-settings{
+    margin: .5rem 0;
 }

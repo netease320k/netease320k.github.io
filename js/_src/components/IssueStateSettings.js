@@ -1,7 +1,7 @@
 import React from 'react'
 
 const IssueSateSettings = ({onButtonClick, issueState})=>(
-    <div>
+    <div className="issue-state-settings">
         {
             [['all', '全部'], ['open', '排队中'], ['closed', '已处理']]
                 .map(
@@ -11,6 +11,7 @@ const IssueSateSettings = ({onButtonClick, issueState})=>(
                     )
                 )
         }
+        <label htmlFor="show-detail-checkbox" className="button" id="show-detail-label">显示详细</label>
     </div>
 );
 

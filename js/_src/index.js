@@ -8,6 +8,13 @@ import App from "./components/App";
 import thunkMiddleware from "redux-thunk";
 import {initApp} from "./actions";
 import logger from 'redux-logger'
+import {appVersion} from './constants'
+
+const appVersionFromLocalStorage = localStorage.getItem('appVersion')||0;
+if (appVersionFromLocalStorage < appVersion) {
+    localStorage.clear();
+    localStorage.setItem('appVersion',appVersion);
+}
 
 let store = createStore(app, {
         appState: JSON.parse(localStorage.getItem('appState'))||{
@@ -21,10 +28,8 @@ let store = createStore(app, {
     logger()
 ));
 
-// console.log(store.getState());
 
 store.subscribe(() => {
-    // console.log(store.getState());
     localStorage.setItem('appState', JSON.stringify(store.getState().appState));
     localStorage.setItem('caches', JSON.stringify(store.getState().caches));
 });

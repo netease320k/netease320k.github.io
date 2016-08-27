@@ -5,14 +5,14 @@ const fetchData = (url, etag)=> (dispatch) => fetch(
     getRequest(url, etag),
     {timeout: 10000}
 ).then((response)=> {
-    // console.log(response);
     if (response.status >= 400) {
         throw new Error("Bad response from server");
     }
     if (response.ok) {
         let new_etag = response.headers.get('etag');
+        let link = response.headers.get('link');
         return response.json().then((data)=> {
-            dispatch(updateCache(url, {etag: new_etag, data}))
+            dispatch(updateCache(url, {etag: new_etag, data,link}))
         })
     }
     else {

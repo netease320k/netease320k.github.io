@@ -29,6 +29,22 @@ $on-palm:          600px;
 $on-laptop:        800px;
 
 
+$pagination-color:                     #555;
+$pagination-bg:                        #fff;
+$pagination-border:                    #ddd;
+
+$pagination-hover-color:               darken(#337ab7, 15%);
+$pagination-hover-bg:                  #eee;
+$pagination-hover-border:              #ddd;
+
+$pagination-active-color:              #fff;
+$pagination-active-bg:                 #337ab7;
+$pagination-active-border:             #337ab7;
+
+$pagination-disabled-color:            #777;
+$pagination-disabled-bg:               #fff;
+$pagination-disabled-border:           #ddd;
+
 
 // Use media queries like this:
 // @include media-query($on-palm) {
@@ -41,6 +57,24 @@ $on-laptop:        800px;
     @media screen and (max-width: $device) {
         @content;
     }
+}
+
+
+@mixin border-top-radius($radius) {
+  border-top-right-radius: $radius;
+  border-top-left-radius: $radius;
+}
+@mixin border-right-radius($radius) {
+  border-bottom-right-radius: $radius;
+  border-top-right-radius: $radius;
+}
+@mixin border-bottom-radius($radius) {
+  border-bottom-right-radius: $radius;
+  border-bottom-left-radius: $radius;
+}
+@mixin border-left-radius($radius) {
+  border-bottom-left-radius: $radius;
+  border-top-left-radius: $radius;
 }
 
 

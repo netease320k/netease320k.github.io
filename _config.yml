@@ -5,7 +5,8 @@ baseurl: "" # the subpath of your site, e.g. /blog
 markdown: kramdown
 permalink: pretty
 
-
+sass:
+  style: compressed
 
 exclude: ['js/node_modules','LICENSE','README.md']
 

@@ -21,3 +21,21 @@ export const getRequest = (url, etag) => {
 
     return new Request(url, myInit);
 };
+
+export const convertDateTime = (dateTimeString) => new Date(dateTimeString).toLocaleString().replace(/GMT.*/,'');
+
+export const relLinktoPagenumber = (relLink) => {
+    const first = /<.*page=(\d*)>; rel=\"first\"/.exec(relLink);
+    const last = /<.*page=(\d*)>; rel=\"last\"/.exec(relLink);
+    const prev = /<.*page=(\d*)>; rel=\"prev\"/.exec(relLink);
+    const next = /<.*page=(\d*)>; rel=\"next\"/.exec(relLink);
+    return {
+        first: first && parseInt(first[1]),
+        last:  last  && parseInt(last[1]),
+        prev:  prev  && parseInt(prev[1]),
+        next:  next  && parseInt(next[1])
+    }
+};;
+
+
+export const appVersion = 1;
