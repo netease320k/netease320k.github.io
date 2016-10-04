@@ -16,6 +16,11 @@ ul, ol, dl, figure,
   margin-bottom: $base-spacing / 2;
 }
 
+pre{
+  overflow: scroll;
+  background-color: #f7f7f7;
+}
+
 .wrapper {
   @include outer-container;
   @include pad(1rem 2rem);
@@ -30,20 +35,21 @@ ul, ol, dl, figure,
 
 .site {
   margin: 0;
-  display: flex;
-  flex-direction: column;
+  @include flexbox;
+  @include flex-direction(column);
   background-color: #FAFAFA;
 
   text-align: justify;
 }
 
 .site-header {
-  flex: none;
+  z-index: 5;
+  @include flex(none);
   .wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-direction: column;
+    @include flexbox();
+    @include align-items(center);
+    @include justify-content(space-between);
+    @include flex-direction(column);
 
     &::after {
       display: none
@@ -54,7 +60,7 @@ ul, ol, dl, figure,
     }
 
     @include media($medium-screen) {
-      flex-direction: row;
+      @include flex-direction(row);
       .site-nav {
         margin-top: 0;
       }
@@ -72,7 +78,7 @@ ul, ol, dl, figure,
 }
 
 .site-content {
-  flex: 1 0 auto;
+  @include flex(1 0 auto);
 }
 
 .site-title {

@@ -14,8 +14,8 @@
     border: $card-border;
     border-radius: $base-border-radius;
     box-shadow: 0 2px 4px darken($base-background-color, 10%);
-    flex-basis: 15em;
-    flex-grow: 1;
+    @include flex-basis(15em);
+    @include flex-grow(1);
     margin: 0 $card-margin $base-spacing/2 $card-margin;
 
     @include media($medium-screen) {
@@ -33,9 +33,11 @@
       img {
         @include border-top-radius($base-border-radius);
         object-fit: cover;
-        opacity: 1;
         transition: all 0.2s ease-in-out;
         width: 100%;
+        z-index: auto;
+        max-height: 15rem;
+        height: 100%;
       }
     }
 
@@ -80,17 +82,21 @@
   }
 }
 
-.post-image {
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
+.site-content > .post-image {
+  text-align:center;
+  // @include flexbox;
+  // @include justify-content(center);
 
   img {
-    @include border-top-radius($base-border-radius);
-    object-fit: cover;
-    opacity: 1;
+    display: inline-block;
     transition: all 0.2s ease-in-out;
-    flex: 0 1 auto;
+    // @include flex(0 1 auto);
+    min-width: 100%;
+
+    @include media($max-width){
+      min-width: $max-width;
+    }
+
   }
 }
 
@@ -135,4 +141,3 @@ article {
     border-bottom: 1px dashed $NetEaseRed;
   }
 }
-
